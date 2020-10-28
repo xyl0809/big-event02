@@ -23,21 +23,44 @@ $(function () {
     }
   }
   })
-
+  var layer=layui.layer
+// 注册表单
   $('#form-reg').on('submit', function (e) { 
     e.preventDefault()
     $.ajax({
       type: 'post',
-      url: 'http://ajax.frontend.itheima.net/api/reguser',
+      url: '/api/reguser',
       data: {
         username:$('.reg-box [name=username]').val(),
         password:$('.reg-box [name=password]').val(),
       },
       success: function (res) { 
-        if (status !== 0) { 
-          alert(res.message)
+        if (res.status !== 0) { 
+          return layer.msg(res.message)
         }
-        alert(res.message)
+        layer.msg(res.message)
+        $('#go-login').click()
+        $('#form-reg')[0].reset()
+      }
+    })
+  })
+
+// 登录表单
+  $('#form-login').submit(function (e) { 
+    e.preventDefault()
+    $.ajax({
+      type:'post',
+      url: '/api/login',
+      // 快速获取表单数据
+      data: $(this).serialize(),
+      success: function (res) {
+        console.log(res);
+        if (res.status !== 0) { 
+          return layer.msg('密码错误')
+        }
+        layer.msg(res.message)
+        localStorage.setItem('token',res.token)
+        location.href='/index.html'
       }
     })
   })
