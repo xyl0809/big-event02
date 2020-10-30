@@ -39,7 +39,7 @@ function renderAvatar (user) {
   if (user.user_pic != null) {
     // 有头像
     // 显示头像
-    $('.layui-nav-img').show().attr('scr', user.user_pic)
+    $('.layui-nav-img').show().attr('src', user.user_pic)
     // 字母隐藏
     $('.text-avatar').hide()
   }
